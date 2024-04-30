@@ -35,6 +35,7 @@ public class Main {
                 float amount = Float.parseFloat(splitInput[4]);
 
                 Transaction transaction = new Transaction(dateOfTransaction, timeOfTransaction, description, vendor, amount);
+                storeInventory.add(transaction);
 
 
             }
@@ -45,6 +46,7 @@ public class Main {
 
         do{
             System.out.println("\nWelcome! Choose between these options: ");
+            System.out.println("\tA) Display all entries: ");
             System.out.println("\tD) Add Deposit: ");
             System.out.println("\tP) Make Payment (With Debit): ");
             System.out.println("\tL) Ledger: ");
@@ -57,29 +59,54 @@ public class Main {
 
             switch (firstOption){
 
+
+
                 case "D":
-                    String newDescription;
-                    String newVendor;
-                    float newAmount;
+                    String depositDescription;
+                    String depositVendor;
+                    float depositAmount;
                     System.out.println("\n Type the description of the deposit here: ");
-                    newDescription = scanner.nextLine();
+                    depositDescription = scanner.nextLine();
 
                     System.out.println("\n Type the name of the vendor here: ");
-                    newVendor = scanner.nextLine();
+                    depositVendor = scanner.nextLine();
 
                     System.out.println("\n Type amount of the deposit here: ");
-                    newAmount = scanner.nextFloat();
+                    depositAmount = scanner.nextFloat();
 
                     String depositDate = String.valueOf(LocalDate.now());
                     String depositTime = String.valueOf(LocalTime.now());
 
-                    Transaction newDeposit = new Transaction(depositDate, depositTime, newDescription, newVendor, newAmount);
+                    Transaction newDeposit = new Transaction(depositDate, depositTime, depositDescription, depositVendor, depositAmount);
                     storeInventory.add(newDeposit);
 
                     System.out.println("Deposit added!");
                     System.out.println(storeInventory);
                     break;
 
+
+                case "P":
+                    String paymentDescription;
+                    String paymentVendor;
+                    float paymentAmount;
+                    System.out.println("\n Type the description of the withdrawal here: ");
+                    paymentDescription = scanner.nextLine();
+
+                    System.out.println("\n Type the name of the vendor here: ");
+                    paymentVendor = scanner.nextLine();
+
+                    System.out.println("\n Type amount of the withdrawal here: ");
+                    paymentAmount = -scanner.nextFloat();
+
+                    String paymentDate = String.valueOf(LocalDate.now());
+                    String paymentTime = String.valueOf(LocalTime.now());
+
+                    Transaction newPayment = new Transaction(paymentDate, paymentTime, paymentDescription, paymentVendor, paymentAmount);
+                    storeInventory.add(newPayment);
+
+                    System.out.println("Payment added!");
+                    System.out.println(storeInventory);
+                    break;
             }
 
 
