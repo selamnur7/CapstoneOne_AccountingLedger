@@ -1,16 +1,18 @@
 package com.ps;
 import java.sql.Time;
 import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Transaction {
-    private String dateOfTransaction;
-    private String timeOfTransaction;
+    private LocalDate dateOfTransaction;
+    private LocalTime timeOfTransaction;
 
     private String description;
     private String vendor;
     private float amount;
 
-    public Transaction(String dateOfTransaction, String timeOfTransaction, String description, String vendor, float amount) {
+    public Transaction(LocalDate dateOfTransaction, LocalTime timeOfTransaction, String description, String vendor, float amount) {
         this.dateOfTransaction = dateOfTransaction;
         this.timeOfTransaction = timeOfTransaction;
         this.description = description;
@@ -18,19 +20,19 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public String getDateOfTransaction() {
+    public LocalDate getDateOfTransaction() {
         return dateOfTransaction;
     }
 
-    public void setDateOfTransaction(String dateOfTransaction) {
+    public void setDateOfTransaction(LocalDate dateOfTransaction) {
         this.dateOfTransaction = dateOfTransaction;
     }
 
-    public String getTimeOfTransaction() {
+    public LocalTime getTimeOfTransaction() {
         return timeOfTransaction;
     }
 
-    public void setTimeOfTransaction(String timeOfTransaction) {
+    public void setTimeOfTransaction(LocalTime timeOfTransaction) {
         this.timeOfTransaction = timeOfTransaction;
     }
 
@@ -61,12 +63,9 @@ public class Transaction {
     @Override
     public String toString() {
         return "Transaction{" +
-                "dateOfTransaction='" + dateOfTransaction + '\'' +
-                ", timeOfTransaction='" + timeOfTransaction + '\'' +
-                ", description='" + description + '\'' +
+                "description='" + description + '\'' +
                 ", vendor='" + vendor + '\'' +
                 ", amount=" + amount +
                 '}';
     }
 }
-

@@ -1,2 +1,7 @@
 2023-04-15|10:13:25|ergonomic keyboard|Amazon|-89.50
 2023-04-15|11:15:00|Invoice 1001 paid|Joe|1500.00
+2022-01-30|06:58:24|Call of Duty Modern Warfare II|Activision|-69.99
+2022-07-19|10:35:13|Kung-Fu Lessons|Kung-Fu Kenny|-120.00
+2024-04-19|14:47:28|Ghost Writing|Drake|1200.00
+2023-12-31|20:47:28|Limo Rental|Red Oak|-580.00
+2024-05-02|13:43:57|money moves|cardi b|2000.00
