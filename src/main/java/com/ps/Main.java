@@ -237,7 +237,7 @@ public class Main {
                             System.out.println("\t4) Previous Year: ");
                             System.out.println("\t5) Search by vendor: ");
                             System.out.println("\t6) Custom Search: ");
-                            System.out.println("\t0) Go back to reports page: ");
+                            System.out.println("\t0) Go back to ledger page: ");
 
                             reportsOption = scanner.nextInt();
                             scanner.nextLine();
