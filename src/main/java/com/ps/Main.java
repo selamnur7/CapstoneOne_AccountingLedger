@@ -1,4 +1,5 @@
 package com.ps;
+
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -15,12 +16,9 @@ import java.io.FileWriter;
 public class Main {
 
 
-
     public static void main(String[] args) {
 
         ArrayList<Transaction> storeInventory = new ArrayList<>();
-
-
 
 
         Scanner scanner = new Scanner(System.in);
@@ -30,13 +28,11 @@ public class Main {
         int reportsOption;
 
 
-
-
         // File reader for transactions.txt
         try {
             BufferedReader bufreader = new BufferedReader(new FileReader("transactions.txt"));
             String input;
-            while ((input = bufreader.readLine()) != null){
+            while ((input = bufreader.readLine()) != null) {
 
 
                 String[] splitInput = input.split("\\|");
@@ -46,18 +42,18 @@ public class Main {
                 String vendor = splitInput[3];
                 float amount = Float.parseFloat(splitInput[4]);
 
-                Transaction transaction = new Transaction(dateOfTransaction,timeOfTransaction, description, vendor, amount);
+                Transaction transaction = new Transaction(dateOfTransaction, timeOfTransaction, description, vendor, amount);
                 storeInventory.add(transaction);
 
 
             }
             bufreader.close();
-        }  catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
 
-        do{
+        do {
 
             // Main menu
             System.out.println("\nWelcome! Choose between these options: ");
@@ -67,8 +63,6 @@ public class Main {
             System.out.println("\tX) Exit: ");
 
             firstOption = scanner.nextLine().toUpperCase();
-
-
 
 
             switch (firstOption) {
@@ -167,245 +161,241 @@ public class Main {
 
                 case "L":
                     // loop for ledger
-                do{
-                    System.out.println(" ");
-                    System.out.println("\tA) Display all entries: ");
-                    System.out.println("\tD) Display all deposits into the account: ");
-                    System.out.println("\tP) Display all payments from this account: ");
-                    System.out.println("\tR) Display entries by Date or by vendor: ");
-                    System.out.println("\tH) Go back to home page: ");
+                    do {
+                        System.out.println(" ");
+                        System.out.println("\tA) Display all entries: ");
+                        System.out.println("\tD) Display all deposits into the account: ");
+                        System.out.println("\tP) Display all payments from this account: ");
+                        System.out.println("\tR) Display entries by Date or by vendor: ");
+                        System.out.println("\tH) Go back to home page: ");
 
 
-                    ledgerOption = scanner.nextLine().toUpperCase();
+                        ledgerOption = scanner.nextLine().toUpperCase();
 
 
-                    switch (ledgerOption) {
-                        case "A":
+                        switch (ledgerOption) {
+                            case "A":
 
-                            // Puts all the transactions in order from earliest to oldest
-                            Collections.sort(storeInventory, Comparator.comparing(Transaction::getDateOfTransaction).thenComparing(Transaction::getTimeOfTransaction).reversed());
-                            for (Transaction transaction : storeInventory) {
-                                System.out.printf("Date:%-10s       Time:%-10s       Description:%-30s       Vendor:%-15s       Amount:$%.2f\n",
-                                        transaction.getDateOfTransaction(),
-                                        transaction.getTimeOfTransaction(),
-                                        transaction.getDescription(),
-                                        transaction.getVendor(),
-                                        transaction.getAmount());
-
-
-                            }
-                            break;
-
-                        case "D":
-                            Collections.sort(storeInventory, Comparator.comparing(Transaction::getDateOfTransaction).thenComparing(Transaction::getTimeOfTransaction).reversed());
-                            for (Transaction transaction : storeInventory) {
-                                if (transaction.getAmount() > 0) {
+                                // Puts all the transactions in order from earliest to oldest
+                                Collections.sort(storeInventory, Comparator.comparing(Transaction::getDateOfTransaction).thenComparing(Transaction::getTimeOfTransaction).reversed());
+                                for (Transaction transaction : storeInventory) {
                                     System.out.printf("Date:%-10s       Time:%-10s       Description:%-30s       Vendor:%-15s       Amount:$%.2f\n",
                                             transaction.getDateOfTransaction(),
                                             transaction.getTimeOfTransaction(),
                                             transaction.getDescription(),
                                             transaction.getVendor(),
                                             transaction.getAmount());
+
+
                                 }
+                                break;
 
-                            }
-                            break;
-
-                        case "P":
-                            Collections.sort(storeInventory, Comparator.comparing(Transaction::getDateOfTransaction).thenComparing(Transaction::getTimeOfTransaction).reversed());
-                            for (Transaction transaction : storeInventory) {
-                                if (transaction.getAmount() < 0) {
-                                    System.out.printf("Date:%-10s       Time:%-10s       Description:%-30s       Vendor:%-15s       Amount:$%.2f\n",
-                                            transaction.getDateOfTransaction(),
-                                            transaction.getTimeOfTransaction(),
-                                            transaction.getDescription(),
-                                            transaction.getVendor(),
-                                            transaction.getAmount());
-                                }
-
-                            }
-
-
-                            break;
-                        case "R":
-                        do{
-
-                            System.out.println("\nChoose one of the options to run");
-                            System.out.println("\t1) Month to date: ");
-                            System.out.println("\t2) Previous month: ");
-                            System.out.println("\t3) Year to Date: ");
-                            System.out.println("\t4) Previous Year: ");
-                            System.out.println("\t5) Search by vendor: ");
-                            System.out.println("\t6) Custom Search: ");
-                            System.out.println("\t0) Go back to ledger page: ");
-
-                            reportsOption = scanner.nextInt();
-                            scanner.nextLine();
-
-
-                            switch (reportsOption) {
-                                case 1:
-                                    Collections.sort(storeInventory, Comparator.comparing(Transaction::getDateOfTransaction).thenComparing(Transaction::getTimeOfTransaction).reversed());
-                                    System.out.println("                                                ****    Month To Date Report     ****    ");
-                                    System.out.println("                                                    #     -- Transactions --   #           ");
-                                    System.out.println(" ");
-
-                                    for (Transaction transaction : storeInventory) {
-
-                                        // Compares all the transaction dates with the current month
-                                        if (LocalDate.now().getMonthValue() == transaction.getDateOfTransaction().getMonthValue()
-                                                && transaction.getDateOfTransaction().getYear() == LocalDate.now().getYear()) {
-
-                                            System.out.printf("Date:%-10s       Time:%-10s       Description:%-30s       Vendor:%-15s       Amount:$%.2f\n",
-                                                    transaction.getDateOfTransaction(),
-                                                    transaction.getTimeOfTransaction(),
-                                                    transaction.getDescription(),
-                                                    transaction.getVendor(),
-                                                    transaction.getAmount());
-                                        }
-
-                                    }
-                                    break;
-                                case 2:
-                                    Collections.sort(storeInventory, Comparator.comparing(Transaction::getDateOfTransaction).thenComparing(Transaction::getTimeOfTransaction).reversed());
-                                    System.out.println("                                                ****       Last Month's Report      ****    ");
-                                    System.out.println("                                                    #     -- Transactions --   #           ");
-                                    System.out.println(" ");
-                                    for (Transaction transaction : storeInventory) {
-
-                                        // Compares all transactions with the previous month to only print those
-                                        if (transaction.getDateOfTransaction().getMonthValue() == LocalDate.now().minusMonths(1).getMonthValue()
-                                                && transaction.getDateOfTransaction().getYear() == LocalDate.now().getYear()) {
-
-                                            System.out.printf("Date:%-10s       Time:%-10s       Description:%-30s       Vendor:%-15s       Amount:$%.2f\n",
-                                                    transaction.getDateOfTransaction(),
-                                                    transaction.getTimeOfTransaction(),
-                                                    transaction.getDescription(),
-                                                    transaction.getVendor(),
-                                                    transaction.getAmount());
-                                        }
-
-                                    }
-
-                                    break;
-                                case 3:
-                                    Collections.sort(storeInventory, Comparator.comparing(Transaction::getDateOfTransaction).thenComparing(Transaction::getTimeOfTransaction).reversed());
-                                    System.out.println("                                                ****    Year To Date Report      ****    ");
-                                    System.out.println("                                                    #     -- Transactions --   #           ");
-                                    System.out.println(" ");
-                                    for (Transaction transaction : storeInventory) {
-
-                                        // Only prints transactions from this year loop
-                                        if (transaction.getDateOfTransaction().getYear() == LocalDate.now().getYear()) {
-
-                                            System.out.printf("Date:%-10s       Time:%-10s       Description:%-30s       Vendor:%-15s       Amount:$%.2f\n",
-                                                    transaction.getDateOfTransaction(),
-                                                    transaction.getTimeOfTransaction(),
-                                                    transaction.getDescription(),
-                                                    transaction.getVendor(),
-                                                    transaction.getAmount());
-                                        }
-
-                                    }
-
-                                    break;
-                                case 4:
-                                    Collections.sort(storeInventory, Comparator.comparing(Transaction::getDateOfTransaction).thenComparing(Transaction::getTimeOfTransaction).reversed());
-
-                                    // Fancy font
-                                    System.out.println("                                                ****    Previous Year's Report     ****    ");
-                                    System.out.println("                                                    #     -- Transactions --   #           ");
-                                    System.out.println(" ");
-                                    for (Transaction transaction : storeInventory) {
-                                        if (transaction.getDateOfTransaction().getYear() == LocalDate.now().minusYears(1).getYear()) {
-
-                                            System.out.printf("Date:%-10s       Time:%-10s       Description:%-30s       Vendor:%-15s       Amount:$%.2f\n",
-                                                    transaction.getDateOfTransaction(),
-                                                    transaction.getTimeOfTransaction(),
-                                                    transaction.getDescription(),
-                                                    transaction.getVendor(),
-                                                    transaction.getAmount());
-                                        }
-
-                                    }
-                                    break;
-                                case 5:
-                                    Collections.sort(storeInventory, Comparator.comparing(Transaction::getDateOfTransaction).thenComparing(Transaction::getTimeOfTransaction).reversed());
-
-                                    // Asks for name of vendor then will loop from every transaction to find the vendor name matching
-                                    System.out.println("What is the name of the vendor?");
-                                    String vendorSearch = scanner.next();
-
-                                    for (Transaction transaction : storeInventory) {
-                                        if (vendorSearch.equals(transaction.getVendor())) {
-                                            System.out.printf("Date:%-10s       Time:%-10s       Description:%-30s       Vendor:%-15s       Amount:$%.2f\n",
-                                                    transaction.getDateOfTransaction(),
-                                                    transaction.getTimeOfTransaction(),
-                                                    transaction.getDescription(),
-                                                    transaction.getVendor(),
-                                                    transaction.getAmount());
-                                        }
-
-                                    }
-                                    break;
-                                case 6:
-                                    System.out.println("What is the start date? Enter using (yyyy-MM-DD)");
-                                    String customStartDate = scanner.next();
-                                    System.out.println("What is the end date? Enter using (yyyy-MM-DD)");
-                                    String customEndDate = scanner.next();
-                                    System.out.println("What is the description of the transaction?");
-                                    String customDescription = scanner.next();
-                                    System.out.println("What is the vendors name?");
-                                    String customVendor = scanner.next();
-                                    System.out.println("What is the amount?");
-                                    float customAmount = scanner.nextFloat();
-
-                                    LocalDate startDateMatch = LocalDate.parse(customStartDate);
-                                    LocalDate endDateMatch = LocalDate.parse(customEndDate);
-
-
-
-                                    for (Transaction transaction : storeInventory) {
-                                        if (transaction.getDateOfTransaction().compareTo(startDateMatch) >= 0 &&
-                                        transaction.getDateOfTransaction().compareTo(endDateMatch) <= 0 &&
-                                        transaction.getDescription().equalsIgnoreCase(customDescription) &&
-                                        transaction.getVendor().equalsIgnoreCase(customVendor) &&
-                                        transaction.getAmount() == customAmount){
-
+                            case "D":
+                                Collections.sort(storeInventory, Comparator.comparing(Transaction::getDateOfTransaction).thenComparing(Transaction::getTimeOfTransaction).reversed());
+                                for (Transaction transaction : storeInventory) {
+                                    if (transaction.getAmount() > 0) {
                                         System.out.printf("Date:%-10s       Time:%-10s       Description:%-30s       Vendor:%-15s       Amount:$%.2f\n",
                                                 transaction.getDateOfTransaction(),
                                                 transaction.getTimeOfTransaction(),
                                                 transaction.getDescription(),
                                                 transaction.getVendor(),
                                                 transaction.getAmount());
-                                        }
                                     }
 
+                                }
+                                break;
+
+                            case "P":
+                                Collections.sort(storeInventory, Comparator.comparing(Transaction::getDateOfTransaction).thenComparing(Transaction::getTimeOfTransaction).reversed());
+                                for (Transaction transaction : storeInventory) {
+                                    if (transaction.getAmount() < 0) {
+                                        System.out.printf("Date:%-10s       Time:%-10s       Description:%-30s       Vendor:%-15s       Amount:$%.2f\n",
+                                                transaction.getDateOfTransaction(),
+                                                transaction.getTimeOfTransaction(),
+                                                transaction.getDescription(),
+                                                transaction.getVendor(),
+                                                transaction.getAmount());
+                                    }
+
+                                }
 
 
-                            break;
-                            }
-                    }while(reportsOption != 0);
+                                break;
+                            case "R":
+                                do {
+
+                                    System.out.println("\nChoose one of the options to run");
+                                    System.out.println("\t1) Month to date: ");
+                                    System.out.println("\t2) Previous month: ");
+                                    System.out.println("\t3) Year to Date: ");
+                                    System.out.println("\t4) Previous Year: ");
+                                    System.out.println("\t5) Search by vendor: ");
+                                    System.out.println("\t6) Custom Search: ");
+                                    System.out.println("\t0) Go back to ledger page: ");
+
+                                    reportsOption = scanner.nextInt();
+                                    scanner.nextLine();
 
 
+                                    switch (reportsOption) {
+                                        case 1:
+                                            Collections.sort(storeInventory, Comparator.comparing(Transaction::getDateOfTransaction).thenComparing(Transaction::getTimeOfTransaction).reversed());
+                                            System.out.println("                                                ****    Month To Date Report     ****    ");
+                                            System.out.println("                                                    #     -- Transactions --   #           ");
+                                            System.out.println(" ");
 
-                    }
-            } while (!ledgerOption.equalsIgnoreCase("H"));
+                                            for (Transaction transaction : storeInventory) {
+
+                                                // Compares all the transaction dates with the current month
+                                                if (LocalDate.now().getMonthValue() == transaction.getDateOfTransaction().getMonthValue()
+                                                        && transaction.getDateOfTransaction().getYear() == LocalDate.now().getYear()) {
+
+                                                    System.out.printf("Date:%-10s       Time:%-10s       Description:%-30s       Vendor:%-15s       Amount:$%.2f\n",
+                                                            transaction.getDateOfTransaction(),
+                                                            transaction.getTimeOfTransaction(),
+                                                            transaction.getDescription(),
+                                                            transaction.getVendor(),
+                                                            transaction.getAmount());
+                                                }
+
+                                            }
+                                            break;
+                                        case 2:
+                                            Collections.sort(storeInventory, Comparator.comparing(Transaction::getDateOfTransaction).thenComparing(Transaction::getTimeOfTransaction).reversed());
+                                            System.out.println("                                                ****       Last Month's Report      ****    ");
+                                            System.out.println("                                                    #     -- Transactions --   #           ");
+                                            System.out.println(" ");
+                                            for (Transaction transaction : storeInventory) {
+
+                                                // Compares all transactions with the previous month to only print those
+                                                if (transaction.getDateOfTransaction().getMonthValue() == LocalDate.now().minusMonths(1).getMonthValue()
+                                                        && transaction.getDateOfTransaction().getYear() == LocalDate.now().getYear()) {
+
+                                                    System.out.printf("Date:%-10s       Time:%-10s       Description:%-30s       Vendor:%-15s       Amount:$%.2f\n",
+                                                            transaction.getDateOfTransaction(),
+                                                            transaction.getTimeOfTransaction(),
+                                                            transaction.getDescription(),
+                                                            transaction.getVendor(),
+                                                            transaction.getAmount());
+                                                }
+
+                                            }
+
+                                            break;
+                                        case 3:
+                                            Collections.sort(storeInventory, Comparator.comparing(Transaction::getDateOfTransaction).thenComparing(Transaction::getTimeOfTransaction).reversed());
+                                            System.out.println("                                                ****    Year To Date Report      ****    ");
+                                            System.out.println("                                                    #     -- Transactions --   #           ");
+                                            System.out.println(" ");
+                                            for (Transaction transaction : storeInventory) {
+
+                                                // Only prints transactions from this year loop
+                                                if (transaction.getDateOfTransaction().getYear() == LocalDate.now().getYear()) {
+
+                                                    System.out.printf("Date:%-10s       Time:%-10s       Description:%-30s       Vendor:%-15s       Amount:$%.2f\n",
+                                                            transaction.getDateOfTransaction(),
+                                                            transaction.getTimeOfTransaction(),
+                                                            transaction.getDescription(),
+                                                            transaction.getVendor(),
+                                                            transaction.getAmount());
+                                                }
+
+                                            }
+
+                                            break;
+                                        case 4:
+                                            Collections.sort(storeInventory, Comparator.comparing(Transaction::getDateOfTransaction).thenComparing(Transaction::getTimeOfTransaction).reversed());
+
+                                            // Fancy font
+                                            System.out.println("                                                ****    Previous Year's Report     ****    ");
+                                            System.out.println("                                                    #     -- Transactions --   #           ");
+                                            System.out.println(" ");
+                                            for (Transaction transaction : storeInventory) {
+                                                if (transaction.getDateOfTransaction().getYear() == LocalDate.now().minusYears(1).getYear()) {
+
+                                                    System.out.printf("Date:%-10s       Time:%-10s       Description:%-30s       Vendor:%-15s       Amount:$%.2f\n",
+                                                            transaction.getDateOfTransaction(),
+                                                            transaction.getTimeOfTransaction(),
+                                                            transaction.getDescription(),
+                                                            transaction.getVendor(),
+                                                            transaction.getAmount());
+                                                }
+
+                                            }
+                                            break;
+                                        case 5:
+                                            Collections.sort(storeInventory, Comparator.comparing(Transaction::getDateOfTransaction).thenComparing(Transaction::getTimeOfTransaction).reversed());
+
+                                            // Asks for name of vendor then will loop from every transaction to find the vendor name matching
+                                            System.out.println("What is the name of the vendor?");
+                                            String vendorSearch = scanner.next();
+
+                                            for (Transaction transaction : storeInventory) {
+                                                if (vendorSearch.equals(transaction.getVendor())) {
+                                                    System.out.printf("Date:%-10s       Time:%-10s       Description:%-30s       Vendor:%-15s       Amount:$%.2f\n",
+                                                            transaction.getDateOfTransaction(),
+                                                            transaction.getTimeOfTransaction(),
+                                                            transaction.getDescription(),
+                                                            transaction.getVendor(),
+                                                            transaction.getAmount());
+                                                }
+
+                                            }
+                                            break;
+                                        case 6:
+                                            System.out.println("What is the start date? Enter using (yyyy-MM-DD)");
+                                            String customStartDate = scanner.next();
+                                            System.out.println("What is the end date? Enter using (yyyy-MM-DD)");
+                                            String customEndDate = scanner.next();
+                                            System.out.println("What is the description of the transaction?");
+                                            String customDescription = scanner.next();
+                                            System.out.println("What is the vendors name?");
+                                            String customVendor = scanner.next();
+                                            System.out.println("What is the amount?");
+                                            float customAmount = scanner.nextFloat();
+
+                                            LocalDate startDateMatch = LocalDate.parse(customStartDate);
+                                            LocalDate endDateMatch = LocalDate.parse(customEndDate);
+
+
+                                            for (Transaction transaction : storeInventory) {
+                                                if (transaction.getDateOfTransaction().compareTo(startDateMatch) >= 0 &&
+                                                        transaction.getDateOfTransaction().compareTo(endDateMatch) <= 0 &&
+                                                        transaction.getDescription().equalsIgnoreCase(customDescription) &&
+                                                        transaction.getVendor().equalsIgnoreCase(customVendor) &&
+                                                        transaction.getAmount() == customAmount) {
+
+                                                    System.out.printf("Date:%-10s       Time:%-10s       Description:%-30s       Vendor:%-15s       Amount:$%.2f\n",
+                                                            transaction.getDateOfTransaction(),
+                                                            transaction.getTimeOfTransaction(),
+                                                            transaction.getDescription(),
+                                                            transaction.getVendor(),
+                                                            transaction.getAmount());
+                                                }
+                                            }
+
+
+                                            break;
+                                    }
+                                } while (reportsOption != 0);
+
+
+                        }
+                    } while (!ledgerOption.equalsIgnoreCase("H"));
 
 
                 default:
-            break;
+                    break;
             }
 
 
-
-        } while(!firstOption.equalsIgnoreCase("x"));
+        } while (!firstOption.equalsIgnoreCase("x"));
 
 
     }
 
     // write to file method
-    public static void writeToFile(String path, String str){
+    public static void writeToFile(String path, String str) {
         try {
 
             BufferedWriter bufWriter = new BufferedWriter(new FileWriter(path, true));
@@ -416,7 +406,6 @@ public class Main {
             throw new RuntimeException(e);
         }
     }
-
 
 
 }
